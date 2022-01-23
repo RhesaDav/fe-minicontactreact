@@ -6,7 +6,6 @@ const ListContact = () => {
   const [getDatas, setDatas] = useState([]);
 
   useEffect(() => {
-    console.log("get all data from API contact");
     axios({
       method: "GET",
       url: "http://localhost:3100/api/contacts",
@@ -14,6 +13,16 @@ const ListContact = () => {
       setDatas(results.data.payload);
     });
   }, []);
+
+  function deleteContact(id) {
+    axios({
+      method: "DELETE",
+      url: `http://localhost:3100/api/contacts/${id}`,
+    }).then((results) => {
+      window.location.reload()
+    })
+  }
+
 
   return (
     <div>
@@ -46,15 +55,16 @@ const ListContact = () => {
                               <div className="col-1">
                                 <span
                                   style={{ cursor: "pointer" }}
-                                  onClick={() => console.log("edit!")}
                                 >
+                                  <a href={`/edit-contact/${data.id}`}>
                                   🔍
+                                  </a>
                                 </span>
                               </div>
                               <div className="col-1">
                                 <span
                                   style={{ cursor: "pointer" }}
-                                  onClick={() => console.log("hapus!")}
+                                  onClick={() => deleteContact(data.id)}
                                 >
                                   ❌
                                 </span>
